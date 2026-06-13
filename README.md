@@ -1,4 +1,6 @@
-# Skillscore — SKILL.md Linter & Scorer
+# Skillscore — VS Code Extension
+
+> VS Code / Antigravity IDE / VSCodium / Cursor plugin for the [skillscore CLI](https://github.com/sayed3li97/skillscore).
 
 [![VS Marketplace](https://img.shields.io/visual-studio-marketplace/v/sayed-ali-alkamel.skillscore?label=VS%20Marketplace&color=blue)](https://marketplace.visualstudio.com/items?itemName=sayed-ali-alkamel.skillscore)
 [![Open VSX](https://img.shields.io/open-vsx/v/sayed-ali-alkamel/skillscore?label=Open%20VSX&color=purple)](https://open-vsx.org/extension/sayed-ali-alkamel/skillscore)
@@ -106,9 +108,9 @@ Scores map to grades A (90-100), B (80-89), C (70-79), D (60-69), F (< 60).
 
 ## Related
 
-- [skillscore CLI](https://github.com/sayed3li97/skillscore) — the Dart CLI this extension wraps
-- [pub.dev package](https://pub.dev/packages/skillscore) — install the CLI globally
-- [Authoring guides](https://github.com/sayed3li97/skillscore#authoring-guides) — the rubrics each rule comes from
+- [skillscore CLI](https://github.com/sayed3li97/skillscore) — the Dart CLI this extension wraps; use it standalone in terminals and CI
+- [pub.dev package](https://pub.dev/packages/skillscore) — install the CLI globally with `dart pub global activate skillscore`
+- [Authoring guides](https://github.com/sayed3li97/skillscore#the-full-rubric) — the rubrics each rule comes from
 
 ---
 
