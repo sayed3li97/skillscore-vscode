@@ -1,0 +1,39 @@
+# Version control & CI
+.vscode/**
+.github/**
+.gitignore
+.gitattributes
+.editorconfig
+
+# Source (only ship compiled dist/)
+src/**
+**/*.ts
+!**/*.d.ts
+**/*.map
+
+# Build tooling
+esbuild.config.mjs
+tsconfig.json
+eslint.config.mjs
+package-lock.json
+.npmrc
+
+# Tests
+test/**
+out/test/**
+.vscode-test/**
+
+# Node modules (extension is fully bundled)
+node_modules/**
+
+# Built VSIX artifacts
+*.vsix
+
+# Keep these in the package
+!dist/**
+!bin/**
+!media/**
+!docs/**
+!README.md
+!CHANGELOG.md
+!LICENSE

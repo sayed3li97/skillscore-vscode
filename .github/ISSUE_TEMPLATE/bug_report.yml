@@ -1,0 +1,68 @@
+name: Bug Report
+description: Something is not working as expected
+labels: ["bug"]
+body:
+  - type: input
+    id: extension-version
+    attributes:
+      label: Extension version
+      description: "Found in: Help > About or Extensions sidebar"
+      placeholder: "0.1.0"
+    validations:
+      required: true
+
+  - type: input
+    id: skillscore-version
+    attributes:
+      label: skillscore CLI version
+      description: Run `skillscore --version` in your terminal
+      placeholder: "0.2.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: ide
+    attributes:
+      label: IDE
+      options:
+        - VS Code
+        - Antigravity IDE
+        - VSCodium
+        - Cursor
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      placeholder: "macOS 15.2 (Apple Silicon)"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: What did you expect to happen? What actually happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open a folder containing SKILL.md
+        2. Open SKILL.md
+        3. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Extension host logs (if available)
+      description: "Help > Toggle Developer Tools > Console, filter by 'skillscore'"
+      render: shell

@@ -1,0 +1,87 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*.*.*']
+
+permissions:
+  contents: read
+
+jobs:
+  # ── Step 1: compile the Dart CLI binary for each platform ─────────────────
+  build-binaries:
+    name: Build skillscore binary (${{ matrix.target }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: linux-x64
+            dart_binary: skillscore
+          - os: macos-13          # Intel runner
+            target: darwin-x64
+            dart_binary: skillscore
+          - os: macos-latest      # Apple Silicon runner
+            target: darwin-arm64
+            dart_binary: skillscore
+          - os: windows-latest
+            target: win32-x64
+            dart_binary: skillscore.exe
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: sayed3li97/skillscore
+
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+
+      - name: Compile native binary
+        run: dart compile exe bin/skillscore.dart -o bin/${{ matrix.dart_binary }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: binary-${{ matrix.target }}
+          path: bin/${{ matrix.dart_binary }}
+          retention-days: 1
+
+  # ── Step 2: package and publish per-platform VSIXs ────────────────────────
+  publish:
+    name: Publish (${{ matrix.target }})
+    needs: build-binaries
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: [linux-x64, darwin-x64, darwin-arm64, win32-x64]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - run: npm ci
+
+      - name: Download compiled binary
+        uses: actions/download-artifact@v4
+        with:
+          name: binary-${{ matrix.target }}
+          path: bin/${{ matrix.target }}/
+
+      - name: Mark binary executable (non-Windows)
+        if: ${{ !startsWith(matrix.target, 'win32') }}
+        run: chmod +x bin/${{ matrix.target }}/skillscore
+
+      - name: Build extension
+        run: npm run build:prod
+
+      - name: Package VSIX
+        run: npx vsce package --target ${{ matrix.target }} --no-dependencies
+
+      - name: Publish to VS Marketplace
+        run: npx vsce publish --target ${{ matrix.target }} --packagePath *.vsix -p ${{ secrets.VSCE_PAT }}
+
+      - name: Publish to Open VSX (Antigravity + VSCodium)
+        run: npx ovsx publish --target ${{ matrix.target }} *.vsix -p ${{ secrets.OVSX_PAT }}

@@ -1,0 +1,152 @@
+{
+  "name": "skillscore",
+  "displayName": "Skillscore — SKILL.md Linter & Scorer",
+  "version": "0.1.0",
+  "publisher": "sayed-ali-alkamel",
+  "description": "Scores and lints SKILL.md files against the Claude, Codex, and Antigravity authoring guides. Inline diagnostics, score panel, and CI-gate support.",
+  "license": "Apache-2.0",
+  "icon": "media/icon.png",
+  "categories": [
+    "Linters",
+    "Other"
+  ],
+  "keywords": [
+    "skill.md",
+    "SKILL.md",
+    "agent-skills",
+    "claude-code",
+    "antigravity",
+    "codex",
+    "linter",
+    "scorer",
+    "ai-agent",
+    "markdown",
+    "skill-scoring",
+    "anthropic",
+    "claude"
+  ],
+  "homepage": "https://github.com/sayed3li97/skillscore-vscode#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sayed3li97/skillscore-vscode"
+  },
+  "bugs": {
+    "url": "https://github.com/sayed3li97/skillscore-vscode/issues"
+  },
+  "galleryBanner": {
+    "color": "#1a1a2e",
+    "theme": "dark"
+  },
+  "qna": "https://github.com/sayed3li97/skillscore-vscode/discussions",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "activationEvents": [
+    "workspaceContains:**/SKILL.md"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "skillscore.scoreThisSkill",
+        "title": "Score this skill",
+        "category": "Skillscore",
+        "icon": "$(symbol-ruler)"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "skillscore.scoreThisSkill",
+          "when": "resourceFilename == SKILL.md",
+          "group": "navigation"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "skillscore.scoreThisSkill",
+          "when": "resourceFilename == SKILL.md"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "skillscoreContainer",
+          "title": "Skillscore",
+          "icon": "media/skillscore.svg"
+        }
+      ]
+    },
+    "views": {
+      "skillscoreContainer": [
+        {
+          "id": "skillscorePanel",
+          "name": "Skill Score",
+          "type": "tree",
+          "when": "true"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Skillscore",
+      "properties": {
+        "skillscore.executablePath": {
+          "type": "string",
+          "default": "",
+          "description": "Absolute path to the skillscore binary. Leave empty to use the bundled binary or the system PATH."
+        },
+        "skillscore.target": {
+          "type": "string",
+          "default": "universal",
+          "enum": [
+            "universal",
+            "claude",
+            "codex",
+            "antigravity"
+          ],
+          "enumDescriptions": [
+            "Apply all rules (default — portable across all agents)",
+            "Claude Code ruleset only",
+            "Codex ruleset only",
+            "Antigravity ruleset only"
+          ],
+          "description": "Which authoring guide ruleset to score against."
+        },
+        "skillscore.autoScore": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically score SKILL.md files on open and save."
+        },
+        "skillscore.minScore": {
+          "type": "number",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Show a status-bar warning when the score falls below this threshold."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build:prod",
+    "build": "node esbuild.config.mjs",
+    "build:prod": "node esbuild.config.mjs --production",
+    "watch": "node esbuild.config.mjs --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "@vscode/test-cli": "^0.0.9",
+    "@vscode/test-electron": "^2.3.9",
+    "@vscode/vsce": "^2.24.0",
+    "esbuild": "^0.21.0",
+    "eslint": "^9.0.0",
+    "typescript": "^5.4.0"
+  }
+}

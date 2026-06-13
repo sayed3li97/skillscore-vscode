@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Discussions
+    url: https://github.com/sayed3li97/skillscore-vscode/discussions
+    about: Questions, ideas, and general feedback
+  - name: skillscore CLI issues
+    url: https://github.com/sayed3li97/skillscore/issues
+    about: Scoring rules, CLI behavior, and rubric questions
